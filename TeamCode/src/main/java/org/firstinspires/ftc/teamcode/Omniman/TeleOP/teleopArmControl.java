@@ -12,7 +12,7 @@ public class teleopArmControl {
     double armPositionPower=man.getARMPOWER();
     double LinearSlidePower=man.getLINEARARMPOWER();
     double SpecimenPower=man.getSPECIMANARMPOWER();
-    double IntakePower=man.getINTAKEPOWER();
+    //double IntakePower=man.getINTAKEPOWER();
     public teleopArmControl()
     {
         

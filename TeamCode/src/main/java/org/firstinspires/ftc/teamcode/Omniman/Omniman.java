@@ -22,7 +22,7 @@ public class Omniman {
     private final double WANTEDSPECIMANARMPOSITION;
     private final double SPECIMANARMPOSITION;
     private final double SPECIMANARMPOWER;
-    private final double INTAKEPOWER;
+   private final double INTAKEPOWER;
 
     //Motor Variables
     DcMotor linear_slide;
