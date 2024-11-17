@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Omniman;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,12 +13,15 @@ import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 public class Omniman {
     //Motor Values
-    private double WANTEDARMPOSITION = 0;
-    private double ARMPOSITION=0;
-    private double WANTEDLINEARARMPOSITION=0;
-    private double LINEARARMPOSITION=0;
-    private double WANTEDSPECIMANARMPOSITION=0;
-    private double SPECIMANARMPOSITION=0;
+    private final double WANTEDARMPOSITION;
+    private final double ARMPOSITION;
+    private final double ARMPOWER;
+    private final double WANTEDLINEARARMPOSITION;
+    private final double LINEARARMPOSITION;
+    private final double LINEARARMPOWER;
+    private final double WANTEDSPECIMANARMPOSITION;
+    private final double SPECIMANARMPOSITION;
+    private final double SPECIMANARMPOWER;
 
     //Motor Variables
     DcMotor linear_slide;
@@ -40,23 +44,29 @@ public class Omniman {
         //Sample Arm code
         //Arm Position base code
         arm_position=hwMap.dcMotor.get("arm_position");
+        arm_position.setDirection(DcMotorSimple.Direction.REVERSE);
         arm_position.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm_position.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ARMPOSITION=arm_position.getCurrentPosition();
         WANTEDARMPOSITION=arm_position.getTargetPosition();
+        ARMPOWER=arm_position.getPower();
         //Linear Slide base code
         linear_slide=hwMap.dcMotor.get("linear_slide");
         linear_slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linear_slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LINEARARMPOSITION=linear_slide.getCurrentPosition();
         WANTEDLINEARARMPOSITION=linear_slide.getCurrentPosition();
+        LINEARARMPOWER=linear_slide.getPower();
+
         //Sample arm code end
         //Specimen arm base code
         specimen_arm=hwMap.dcMotor.get("specimen_arm");
+        specimen_arm.setDirection(DcMotorSimple.Direction.REVERSE);
         specimen_arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         specimen_arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         SPECIMANARMPOSITION=specimen_arm.getCurrentPosition();
         WANTEDSPECIMANARMPOSITION=specimen_arm.getTargetPosition();
+        SPECIMANARMPOWER=specimen_arm.getPower();
 
         //Intake code
         Intake=hwMap.servo.get("Intake");
@@ -90,4 +100,26 @@ public class Omniman {
     public double getWANTEDSPECIMANARMPOSITION() {
         return WANTEDSPECIMANARMPOSITION;
     }
+    public double getARMPOSITION(){
+        return ARMPOSITION;
+    }
+    public double getLINEARARMPOSITION(){
+        return LINEARARMPOSITION;
+    }
+    public double getSPECIMANARMPOSITION(){
+        return SPECIMANARMPOSITION;
+    }
+    public double getARMPOWER()
+    {
+        return ARMPOWER;
+    }
+    public double getLINEARARMPOWER()
+    {
+        return LINEARARMPOWER;
+    }
+    public double getSPECIMANARMPOWER()
+        {
+            return SPECIMANARMPOWER;
+        }
+
 }
