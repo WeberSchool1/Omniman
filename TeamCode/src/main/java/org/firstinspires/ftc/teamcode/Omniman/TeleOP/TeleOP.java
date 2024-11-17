@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Omniman.Omniman;
 public class TeleOP extends LinearOpMode{
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
+    MecanumDrive Drive;
     Omniman Man;
     @Override
     public void runOpMode() throws InterruptedException {
