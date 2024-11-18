@@ -15,6 +15,11 @@ public class TeleOP extends LinearOpMode{
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     MecanumDrive Drive;
     Omniman Man;
+    private double armPower=Man.getARMPOWER();
+    private double linearPower=Man.getLINEARARMPOWER();
+    private double specimenPower=Man.getSPECIMANARMPOWER();
+    private double intakePower=Man.getINTAKEPOWER();
+    private double specimenadjuster= Man.getSPECIMEN();
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -33,6 +38,67 @@ public class TeleOP extends LinearOpMode{
                 ));
 
             }
+            //armPos code
+            if(gamepad1.right_trigger>0)
+            {
+                armPower=(gamepad1.right_trigger);
+
+            } else if (gamepad1.left_trigger>0) {
+                armPower=(-(gamepad1.left_trigger));
+            }else{
+                armPower=0;
+            }
+            //linearSlide code
+            if(gamepad1.right_bumper)
+            {
+                linearPower=1;
+            } else if (gamepad1.left_bumper) {
+                linearPower=-1;
+            }else
+            {
+                linearPower=0;
+            }
+            //SpecimenArm code
+            if(gamepad1.dpad_up)
+            {
+                specimenPower=1;
+            } else if (gamepad1.dpad_down)
+            {
+                specimenPower=0;
+            }else if(gamepad1.dpad_left)
+            {
+                specimenadjuster=1;
+            } else if (gamepad1.dpad_right)
+            {
+                specimenadjuster=0;
+            }else
+            {
+                specimenadjuster=.5;
+                specimenPower=.5;
+            }
+
+
         }
+
+    }
+
+    public double getArmPower() {
+        return armPower;
+    }
+
+    public double getLinearPower() {
+        return linearPower;
+    }
+
+    public double getSpecimenPower() {
+        return specimenPower;
+    }
+
+    public double getIntakePower() {
+        return intakePower;
+    }
+
+    public double getSpecimenadjuster() {
+        return specimenadjuster;
     }
 }

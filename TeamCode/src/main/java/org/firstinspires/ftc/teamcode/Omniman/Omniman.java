@@ -7,22 +7,25 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Omniman.TeleOP.TeleOP;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 
 public class Omniman {
+    TeleOP OPmode;
     //Motor Values
     private final double WANTEDARMPOSITION;
     private final double ARMPOSITION;
-    private final double ARMPOWER;
+    private  double ARMPOWER = OPmode.getArmPower();
     private final double WANTEDLINEARARMPOSITION;
     private final double LINEARARMPOSITION;
-    private final double LINEARARMPOWER;
+    private double LINEARARMPOWER = OPmode.getLinearPower();
     private final double WANTEDSPECIMANARMPOSITION;
     private final double SPECIMANARMPOSITION;
-    private final double SPECIMANARMPOWER;
-   private final double INTAKEPOWER;
+    private double SPECIMANARMPOWER = OPmode.getSpecimenPower();
+   private double INTAKEPOWER = OPmode.getIntakePower();
+   private double SPECIMEN = OPmode.getSpecimenadjuster();
 
     //Motor Variables
     DcMotor linear_slide;
@@ -75,6 +78,7 @@ public class Omniman {
 
         //Specimen Arm adjuster
         Specimen_adjuster=hwMap.servo.get("Specimen_adjuster");
+        SPECIMEN=Specimen_adjuster.getPosition();
 
         //Odometery Pod Movers
         Ypodraiser=hwMap.servo.get("Ypodraiser");
@@ -126,6 +130,10 @@ public class Omniman {
     public double getINTAKEPOWER()
     {
         return INTAKEPOWER;
+    }
+    public double getSPECIMEN()
+    {
+        return SPECIMEN;
     }
 
 }
