@@ -9,21 +9,22 @@ public class AutoArmControl {
     private com.qualcomm.robotcore.hardware.HardwareMap hardwareMap;
     Omniman omniman;
     //Arm Position imports
-    double armPosition =omniman.getARMPOSITION();
-    double targetArmPosition = omniman.getWANTEDLINEARARMPOSITION();
-    double armPower = omniman.getARMPOWER();
+    double armPosition =omniman.getArmPosition();
+    double targetArmPosition = omniman.getArmTargetPos();
+
+    double armPower = omniman.getArmPower();
     //end Arm Position imports
 
     //Linear Slide imports
-    double linearSlidePosition =omniman.getLINEARARMPOSITION();
-    double linearSlideTargetPosition =omniman.getWANTEDLINEARARMPOSITION();
-    double linearSlidePower =omniman.getLINEARARMPOWER();
+    double linearSlidePosition =omniman.getLinearArmPosition();
+    double linearSlideTargetPosition =omniman.getLinearTargetPos();
+    double linearSlidePower =omniman.getLinearArmPower();
     //end Linear Slide imports
 
     //Speciman Arm imports
-    double specimanArmPosition =omniman.getSPECIMANARMPOSITION();
-    double specimenArmTargetPosition= omniman.getWANTEDSPECIMANARMPOSITION();
-    double specimenArmPower =omniman.getSPECIMANARMPOWER();
+    double specimanArmPosition =omniman.getSpecimenArmPosition();
+    double specimenArmTargetPosition= omniman.getSpecimenTargetPos();
+    double specimenArmPower =omniman.getSpecimenArmPower();
     //end Specimen Arm imports
 
     public AutoArmControl(HardwareMap hwMap)

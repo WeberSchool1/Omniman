@@ -15,13 +15,18 @@ public class TeleOP extends LinearOpMode{
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     MecanumDrive Drive;
     Omniman Man;
-    private double armPower=Man.getARMPOWER();
-    private double linearPower=Man.getLINEARARMPOWER();
-    private double specimenPower=Man.getSPECIMANARMPOWER();
-    private double intakePower=Man.getINTAKEPOWER();
-    private double specimenadjuster= Man.getSPECIMEN();
+    private double armPower;
+    private double linearPower;
+    private double specimenPower;
+    private double intakePower;
+    private double specimenadjuster;
     @Override
     public void runOpMode() throws InterruptedException {
+        armPower=Man.getArmPower();
+        linearPower=Man.getLinearArmPower();
+        specimenPower=Man.getSpecimenArmPower();
+        intakePower=Man.getIntakePower();
+        specimenadjuster=Man.getSpecimenAdjusterPosition();
 
         waitForStart();
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {

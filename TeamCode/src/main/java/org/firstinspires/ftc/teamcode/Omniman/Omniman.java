@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Omniman;
 
-
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,132 +7,134 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Omniman.TeleOP.TeleOP;
-
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
-
 public class Omniman {
+
     TeleOP OPmode;
-    //Motor Values
-    private final double WANTEDARMPOSITION;
-    private final double ARMPOSITION;
-    private  double ARMPOWER = OPmode.getArmPower();
-    private final double WANTEDLINEARARMPOSITION;
-    private final double LINEARARMPOSITION;
-    private double LINEARARMPOWER = OPmode.getLinearPower();
-    private final double WANTEDSPECIMANARMPOSITION;
-    private final double SPECIMANARMPOSITION;
-    private double SPECIMANARMPOWER = OPmode.getSpecimenPower();
-   private double INTAKEPOWER = OPmode.getIntakePower();
-   private double SPECIMEN = OPmode.getSpecimenadjuster();
 
-    //Motor Variables
-    DcMotor linear_slide;
-    DcMotor arm_position;
-    DcMotor specimen_arm;
+    // Motor and Servo Variables
+    private DcMotor linear_slide = null;
+    private DcMotor arm_position = null;
+    private DcMotor specimen_arm = null;
 
-    //Servo Variables
-    Servo Intake;
-    Servo Specimen_adjuster;
-    Servo Ypodraiser;
-    Servo Xpodraiser;
+    private Servo Intake = null;
+    private Servo Specimen_adjuster = null;
+    private Servo Ypodraiser = null;
+    private Servo Xpodraiser = null;
 
     public MecanumDrive drive;
-    public Omniman(HardwareMap hwMap){
-        this(hwMap, new Pose2d(0,0,0));
+
+    public Omniman(HardwareMap hwMap) {
+        this(hwMap, new Pose2d(0, 0, 0));
     }
-    public Omniman(HardwareMap hwMap, Pose2d pose)
-    {
-        drive=new MecanumDrive(hwMap, pose);
-        //Sample Arm code
-        //Arm Position base code
-        arm_position=hwMap.dcMotor.get("arm_position");
-        arm_position.setDirection(DcMotorSimple.Direction.REVERSE);
-        arm_position.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm_position.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ARMPOSITION=arm_position.getCurrentPosition();
-        WANTEDARMPOSITION=arm_position.getTargetPosition();
-        ARMPOWER=arm_position.getPower();
-        //Linear Slide base code
-        linear_slide=hwMap.dcMotor.get("linear_slide");
-        linear_slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linear_slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LINEARARMPOSITION=linear_slide.getCurrentPosition();
-        WANTEDLINEARARMPOSITION=linear_slide.getCurrentPosition();
-        LINEARARMPOWER=linear_slide.getPower();
 
-        //Sample arm code end
-        //Specimen arm base code
-        specimen_arm=hwMap.dcMotor.get("specimen_arm");
-        specimen_arm.setDirection(DcMotorSimple.Direction.REVERSE);
-        specimen_arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        specimen_arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        SPECIMANARMPOSITION=specimen_arm.getCurrentPosition();
-        WANTEDSPECIMANARMPOSITION=specimen_arm.getTargetPosition();
-        SPECIMANARMPOWER=specimen_arm.getPower();
+    public Omniman(HardwareMap hwMap, Pose2d pose) {
+        drive = new MecanumDrive(hwMap, pose);
 
-        //Intake code
-        Intake=hwMap.servo.get("Intake");
-        INTAKEPOWER=Intake.getPosition();
+        // Initialize motors
+        try {
+            arm_position = hwMap.dcMotor.get("arm_position");
+            arm_position.setDirection(DcMotorSimple.Direction.REVERSE);
+            arm_position.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            arm_position.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } catch (Exception e) {
+            arm_position = null; // Handle missing hardware
+        }
 
-        //Specimen Arm adjuster
-        Specimen_adjuster=hwMap.servo.get("Specimen_adjuster");
-        SPECIMEN=Specimen_adjuster.getPosition();
+        try {
+            linear_slide = hwMap.dcMotor.get("linear_slide");
+            linear_slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            linear_slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } catch (Exception e) {
+            linear_slide = null; // Handle missing hardware
+        }
 
-        //Odometery Pod Movers
-        Ypodraiser=hwMap.servo.get("Ypodraiser");
-        Xpodraiser=hwMap.servo.get("XpodRaiser");
+        try {
+            specimen_arm = hwMap.dcMotor.get("specimen_arm");
+            specimen_arm.setDirection(DcMotorSimple.Direction.REVERSE);
+            specimen_arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            specimen_arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } catch (Exception e) {
+            specimen_arm = null; // Handle missing hardware
+        }
 
+        // Initialize servos
+        try {
+            Intake = hwMap.servo.get("Intake");
+        } catch (Exception e) {
+            Intake = null; // Handle missing hardware
+        }
 
+        try {
+            Specimen_adjuster = hwMap.servo.get("Specimen_adjuster");
+        } catch (Exception e) {
+            Specimen_adjuster = null; // Handle missing hardware
+        }
+
+        try {
+            Ypodraiser = hwMap.servo.get("Ypodraiser");
+        } catch (Exception e) {
+            Ypodraiser = null; // Handle missing hardware
+        }
+
+        try {
+            Xpodraiser = hwMap.servo.get("XpodRaiser");
+        } catch (Exception e) {
+            Xpodraiser = null; // Handle missing hardware
+        }
     }
-    public void delay(double seconds){
+
+    public void delay(double seconds) {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
-        while(timer.seconds() < seconds){
-
+        while (timer.seconds() < seconds) {
+            // Wait loop
         }
-
     }
 
-    public double getWANTEDARMPOSITION() {
-        return WANTEDARMPOSITION;
+    // Accessor methods for motor and servo states
+    public double getArmPosition() {
+        return arm_position != null ? arm_position.getCurrentPosition() : 0;
     }
 
-    public double getWANTEDLINEARARMPOSITION() {
-        return WANTEDLINEARARMPOSITION;
+    public double getLinearArmPosition() {
+        return linear_slide != null ? linear_slide.getCurrentPosition() : 0;
     }
 
-    public double getWANTEDSPECIMANARMPOSITION() {
-        return WANTEDSPECIMANARMPOSITION;
+    public double getSpecimenArmPosition() {
+        return specimen_arm != null ? specimen_arm.getCurrentPosition() : 0;
     }
-    public double getARMPOSITION(){
-        return ARMPOSITION;
+
+    public double getArmPower() {
+        return arm_position != null ? arm_position.getPower() : 0;
     }
-    public double getLINEARARMPOSITION(){
-        return LINEARARMPOSITION;
+
+    public double getLinearArmPower() {
+        return linear_slide != null ? linear_slide.getPower() : 0;
     }
-    public double getSPECIMANARMPOSITION(){
-        return SPECIMANARMPOSITION;
+
+    public double getSpecimenArmPower() {
+        return specimen_arm != null ? specimen_arm.getPower() : 0;
     }
-    public double getARMPOWER()
-    {
-        return ARMPOWER;
+
+    public double getIntakePower() {
+        return Intake != null ? Intake.getPosition() : 0;
     }
-    public double getLINEARARMPOWER()
-    {
-        return LINEARARMPOWER;
+
+    public double getSpecimenAdjusterPosition() {
+        return Specimen_adjuster != null ? Specimen_adjuster.getPosition() : 0;
     }
-    public double getSPECIMANARMPOWER()
+    public double getArmTargetPos()
         {
-            return SPECIMANARMPOWER;
+          return arm_position.getTargetPosition();
         }
-    public double getINTAKEPOWER()
+    public double getLinearTargetPos()
     {
-        return INTAKEPOWER;
+        return linear_slide.getTargetPosition();
     }
-    public double getSPECIMEN()
+    public double getSpecimenTargetPos()
     {
-        return SPECIMEN;
+        return specimen_arm.getTargetPosition();
     }
-
 }
